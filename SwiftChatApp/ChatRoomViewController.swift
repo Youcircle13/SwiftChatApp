@@ -13,7 +13,8 @@ import NCMB
 class ChatRoomViewController: JSQMessagesViewController {
     
     /***** 【NCMB】会員管理 カレントユーザー取得 *****/
-    let user = NCMBUser.currentUser
+
+    /***** 【NCMB】会員管理 カレントユーザー取得 *****/
 
     var messages: [JSQMessage] = []
     var msgList: [NCMBObject] = []
@@ -28,9 +29,9 @@ class ChatRoomViewController: JSQMessagesViewController {
         
         self.messages = []
 
-        // カレントユーザーと紐づける
-        senderDisplayName = user?.userName
-        senderId = user?.objectId
+        /***** 取得したカレントユーザと紐づける *****/
+
+        /***** 取得したカレントユーザと紐づける *****/
         
     }
     
