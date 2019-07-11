@@ -51,35 +51,8 @@ class CreateAcountViewController: UIViewController {
         }
         
         /***** 【NCMB】会員管理 新規登録 *****/
-        //　Userインスタンスの生成
-        let user = NCMBUser()
-        // ユーザー名・パスワードを設定
-        user.userName = self.userNameTextField.text!
-        user.password = self.passwordTextField.text!
-        // ユーザーの新規登録
-        user.signUpInBackground(callback: { result in
-            switch result {
-            case .success:
-                // 新規登録に成功した場合の処理
-                let successText = "新規登録に成功しました"
-                print(successText)
-                // errorLabelのの書き換え（メインスレッドで実行）
-                DispatchQueue.main.async {
-                    self.errorLabel.text = successText
-                }
-                
-                
-            case let .failure(error):
-                // 新規登録に失敗した場合の処理
-                let errorText = "新規登録に失敗しました"
-                print("\(errorText): \(error)")
-                // errorLabelのの書き換え（メインスレッドで実行）
-                DispatchQueue.main.async {
-                    self.errorLabel.text = errorText
-                }
-
-            }
-        })
+        
+        /***** 【NCMB】会員管理 新規登録 *****/
         
     }
     
