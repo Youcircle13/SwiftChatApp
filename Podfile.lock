@@ -1,0 +1,37 @@
+PODS:
+  - JSQMessagesViewController (7.2.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
+  - NCMB (0.1.0)
+
+DEPENDENCIES:
+  - JSQMessagesViewController (from `https://github.com/jessesquires/JSQMessagesViewController`, tag `7.2.0`)
+  - NCMB (from `https://github.com/NIFCloud-mbaas/ncmb_swift.git`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - JSQSystemSoundPlayer
+
+EXTERNAL SOURCES:
+  JSQMessagesViewController:
+    :git: https://github.com/jessesquires/JSQMessagesViewController
+    :tag: 7.2.0
+  NCMB:
+    :git: https://github.com/NIFCloud-mbaas/ncmb_swift.git
+
+CHECKOUT OPTIONS:
+  JSQMessagesViewController:
+    :git: https://github.com/jessesquires/JSQMessagesViewController
+    :tag: 7.2.0
+  NCMB:
+    :commit: caeb66e0f897335634fac026a855cd6c8085bf81
+    :git: https://github.com/NIFCloud-mbaas/ncmb_swift.git
+
+SPEC CHECKSUMS:
+  JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  NCMB: be574700d17fc2f38e483bbdbcf6139ccc7feca5
+
+PODFILE CHECKSUM: 3f6f20608c90ccf424fa4305acb5f16dfa48a425
+
+COCOAPODS: 1.7.3
