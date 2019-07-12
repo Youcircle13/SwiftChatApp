@@ -65,6 +65,7 @@ class ViewController: UIViewController{
                 
             }
         })
+        /***** 【NCMB】会員管理 ログイン *****/
         
     }
     
