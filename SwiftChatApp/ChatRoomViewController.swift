@@ -44,65 +44,20 @@ class ChatRoomViewController: JSQMessagesViewController {
         self.inputToolbar.contentView.textView.text = ""
         
         /***** 【NCMB】データストア 保存 *****/
-        // クラスの生成
-        let object : NCMBObject = NCMBObject(className: "chat")
-        // 値の設定
-        object["messege"] = text
-        object["userName"] = senderDisplayName
-        object["sender"] = senderId
-        // データストアへの登録を実施
-        object.saveInBackground(callback: { result in
-            switch result {
-            case .success:
-                // 保存に成功した場合の処理
-                let successText = "保存に成功しました"
-                print(successText)
-                self.showAlert(title: "", message: successText)
-                //画面に表示
-                self.makeMyMsg(senderId: senderId, desplayName: senderDisplayName, message: text)
-                
-            case let .failure(error):
-                // 保存に失敗した場合の処理
-                let errorText = "保存に失敗しました"
-                print("\(errorText): \(error)")
-                self.showAlert(title: "", message: errorText)
-            }
-        })
-        
+
+        /***** 【NCMB】データストア 保存 *****/
     }
     
     func getMsg(){
         /***** 【NCMB】データストア 取得 *****/
-        // クエリの作成
-        var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
-        // 検索条件設定
-        //query.limit = 10 // 取得件数
-        query.order = ["-createDate"] //降順
-        // 取得処理
-        query.findInBackground(callback: { result in
-            switch result {
-            case let .success(array):
-                let successText = "取得に成功しました"
-                print("\(successText): \(array.count)件")
-                self.showAlert(title: "", message: successText)
-                //保持しているデータを初期化
-                self.messages = []
-                // 画面に表示
-                self.msgList = array.reversed()
-                self.makeMsg()
-                
-            case let .failure(error):
-                let errorText = "取得に失敗しました"
-                print("\(errorText): \(error)")
-                self.showAlert(title: "", message: errorText)
-                
-            }
-        })
+
+        /***** 【NCMB】データストア 取得 *****/
     }
     
     @IBAction func logoutBtn(_ sender: UIBarButtonItem) {
         /***** 【NCMB】会員管理 ログアウト *****/
-        NCMBUser.logOut()
+        
+        /***** 【NCMB】会員管理 ログアウト *****/
         self.dismiss(animated: true, completion: nil)
         
     }
