@@ -14,7 +14,8 @@ class ChatRoomViewController: JSQMessagesViewController {
     
     /***** 【NCMB】会員管理 カレントユーザー取得 *****/
     let user = NCMBUser.currentUser
-
+    /***** 【NCMB】会員管理 カレントユーザー取得 *****/
+    
     var messages: [JSQMessage] = []
     var msgList: [NCMBObject] = []
     var timer = Timer()
@@ -28,10 +29,10 @@ class ChatRoomViewController: JSQMessagesViewController {
         
         self.messages = []
 
-        // カレントユーザーと紐づける
+        /***** 取得したカレントユーザと紐づける *****/
         senderDisplayName = user?.userName
         senderId = user?.objectId
-        
+        /***** 取得したカレントユーザと紐づける *****/
     }
     
     // Sendボタンが押された時に呼ばれる
@@ -67,6 +68,7 @@ class ChatRoomViewController: JSQMessagesViewController {
                 self.showAlert(title: "", message: errorText)
             }
         })
+        /***** 【NCMB】データストア 保存 *****/
         
     }
     
@@ -97,11 +99,13 @@ class ChatRoomViewController: JSQMessagesViewController {
                 
             }
         })
+        /***** 【NCMB】データストア 取得 *****/
     }
     
     @IBAction func logoutBtn(_ sender: UIBarButtonItem) {
         /***** 【NCMB】会員管理 ログアウト *****/
         NCMBUser.logOut()
+        /***** 【NCMB】会員管理 ログアウト *****/
         self.dismiss(animated: true, completion: nil)
         
     }
