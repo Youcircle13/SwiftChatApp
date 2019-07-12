@@ -172,13 +172,10 @@ class ChatRoomViewController: JSQMessagesViewController {
     // image data for item
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         
-        //senderId == 自分　だった場合表示しない
         let senderId = messages[indexPath.row].senderId
         
         /***** senderId == 自分　だった場合表示しない *****/
-        if senderId == user?.objectId {
-            return nil
-        }
+
         /***** senderId == 自分　だった場合表示しない *****/
         
         // senderId != 自分だったら user.ong を表示する
