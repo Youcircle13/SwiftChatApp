@@ -45,7 +45,8 @@
 ### 2. コーディングと動作確認
 1. コーディングの進め方について
 1. 新規ユーザー登録機能
-1. ログイン機能登録
+1. ログイン機能
+1. ログアウト機能
 1. メッセージデータ保存機能
 1. メッセージデータ取得機能
 ### 3. まとめと考察
@@ -80,18 +81,358 @@
 * `AppDelegate.swift` を開きます
 * `YOUR_NCMB_APPLICATION_KEY` と `YOUR_NCMB_CLIENT_KEY` を mobile backend でアプリ作成時に発行された２つの APIキー （アプリケーションキーとクライアントキー）に貼り替えます
 * APIキーは mobile backend 管理画面の「アプリ設定」で確認できます
+* SDKの初期化を行います
+```
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        /***** 【NCMB】SDKの初期化 *****/
+        NCMB.initialize(
+            applicationKey: applicationkey,
+            clientKey: clientkey)
+        /***** 【NCMB】SDKの初期化 *****/
+        return true
+    }
+```
 * 書き換えたら必ず保存をしましょう
   * **command + S キー** で保存できます
 
 これでプロジェクトの準備は完了です
 # コーディングと動作確認
 ## コーディングの進め方について
-* `SwiftChatApp` プロジェクト内のファイルに記述していきます・
-  *
+* `SwiftChatApp` プロジェクト内のファイルに記述していきます
 * 必要なコードが虫食い状態になっていますので、手順ごとに1つずつコーディングしてアプリを完成させます。
 ```
-虫食いの例 |||||
+/***** 【NCMB】SDKの初期化 *****/
+        
+/***** 【NCMB】SDKの初期化 *****/
 ```
 ## 新規ユーザ登録機能
+* チャットを行うための会員をクラウドデータベースに保存する処理を実装します
+## コーディング
+* `CreateAcountViewController.swift` に記述します
+* 「Create」ボタンを押したときに実行されるように記述します
+```
+/***** 【NCMB】会員管理 新規登録 *****/
+//　Userインスタンスの生成
+let user = NCMBUser()
+// ユーザー名・パスワードを設定
+user.userName = self.userNameTextField.text!
+user.password = self.passwordTextField.text!
+// ユーザーの新規登録
+user.signUpInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 新規登録に成功した場合の処理
+        let successText = "新規登録に成功しました"
+        print(successText)
+        // errorLabelのの書き換え（メインスレッドで実行）
+        DispatchQueue.main.async {
+            self.errorLabel.text = successText
+        }
+                
+                
+    case let .failure(error):
+        // 新規登録に失敗した場合の処理
+        let errorText = "新規登録に失敗しました"
+        print("\(errorText): \(error)")
+        // errorLabelのの書き換え（メインスレッドで実行）
+        DispatchQueue.main.async {
+            self.errorLabel.text = errorText
+        }
+
+    }
+})
+/***** 【NCMB】会員管理 新規登録 *****/
+```
+* 会員管理を行うためのuserインスタンスを生成します。
+```
+//　Userインスタンスの生成
+let user = NCMBUser()
+```
+* テキストデータに入力されているデータを `user` に設定します
+```
+// ユーザー名・パスワードを設定
+user.userName = self.userNameTextField.text!
+user.password = self.passwordTextField.text!
+```
+* 設定したデータで会員登録を行います
+```
+// ユーザーの新規登録
+user.signUpInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 新規登録に成功した場合の処理
+        let successText = "新規登録に成功しました"
+        print(successText)
+        // errorLabelのの書き換え（メインスレッドで実行）
+        DispatchQueue.main.async {
+            self.errorLabel.text = successText
+        }
+                
+                
+    case let .failure(error):
+        // 新規登録に失敗した場合の処理
+        let errorText = "新規登録に失敗しました"
+        print("\(errorText): \(error)")
+        // errorLabelのの書き換え（メインスレッドで実行）
+        DispatchQueue.main.async {
+            self.errorLabel.text = errorText
+        }
+
+    }
+})
+```
+* `.signUpInBackground()` で会員登録
+* `switch case` で新規登録結果をラベルに表示させます
+* 書き換えたら必ず保存をしましょう
+  * **command + S キー** で保存できます
+
+## 動作確認
+* 好みの Simulator か実機を選択してアプリを実行します
+* アプリが起動したら「Create New Acount」をタップして新規登録画面に遷移します
+* テキストフィールドにユーザ名とパスワードを入力します
+* 入力後「Create」ボタンをタップします
+* ラベルに `新規登録に成功しました` と表示されれば正しく mobile backend 上にデータが格納されています
+* クラウドにデータが保存されていることを実際に確認してみましょう
+* mobile backend を開きます
+* 「会員管理」 を開くと その中に登録した会員が格納されていることを確認できます
+
 ## ログイン機能
-## メッセージデータ
+* クラウドデータベースに保存された会員管理のデータでログインの処理を実装します
+### コーディング
+* `ViewController.swift` に記述します
+* 「Login」ボタンをタップしたときに実行されるように記述します
+```
+/***** 【NCMB】会員管理 ログイン *****/
+NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
+    switch result {
+        case .success:
+            // ログインに成功した場合の処理
+            let sucessText = "ログインに成功しました"
+            print(sucessText)
+            // チャット画面に遷移（メインスレッドで実行）
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toChatRoom", sender: self)
+            }
+                
+        case let .failure(error):
+            // ログインに失敗した場合の処理
+            // errorLabelのの書き換え（メインスレッドで実行）
+            DispatchQueue.main.async {
+                let errorText = "ログイン失敗"
+                print("\(errorText): \(error)")
+                self.errorLabel.text = errorText
+                //contentsのサイズに合わせてobujectのサイズを変える
+                self.errorLabel.sizeToFit()
+            }
+                
+    }
+})
+/***** 【NCMB】会員管理 ログイン *****/
+```
+* `NCMBUser.logInInBackground()` でログイン
+* `switch case` でログイン結果で画面遷移を操作します
+* ログインに成功すればチャット画面に遷移します
+* 書き換えたら必ず保存をしましょう
+  * **command + S キー** で保存できます
+### 動作確認
+* 再びアプリを実行します
+* アプリが起動したらテキストフィールどに登録したユーザ名とパスワードを入力します
+* ログインに成功するとチャット画面に遷移します
+* ※登録していないユーザ名やパスワードを入力するとラベルにログイン失敗と表示されます
+
+## ログアウト機能
+* ログインしているユーザをアプリからログアウトする処理を実装します
+### コーディング
+* `AppDelegate.swift` と `ChatRoomViewController.swift`に記述します
+* アプリ落とした時と「Logout」ボタンをタップしたときに実行されるように記述します
+* `AppDelegate.swift`
+```
+func applicationWillResignActive(_ application: UIApplication) {
+
+    /***** 【NCMB】会員管理 ログアウト *****/
+    NCMBUser.logOut()
+    /***** 【NCMB】会員管理 ログアウト *****/
+        
+}
+```
+* `ChatRoomViewController.swift` 
+```
+/***** 【NCMB】会員管理 ログアウト *****/
+NCMBUser.logOut()
+/***** 【NCMB】会員管理 ログアウト *****/
+```
+
+### 動作確認
+* アプリを実行します
+* アプリが起動したらログインをします
+* 左上の「logout」ボタンをタップします
+* ログアウトが完了したらログイン画面に遷移します
+
+## メッセージデータ保存機能
+* ログインしたユーザでメッセージを送信する処理を実装します
+### コーディング
+* `ChatRoomViewController.swift` に記述します
+* カレントユーザ（ログインしているユーザ）を取得します
+```
+/***** 【NCMB】会員管理 カレントユーザー取得 *****/
+let user = NCMBUser.currentUser
+/***** 【NCMB】会員管理 カレントユーザー取得 *****/
+```
+* メッセージを保存するときに送信者（カレントユーザー）になるように紐づけます
+```
+/***** 取得したカレントユーザと紐づける *****/
+senderDisplayName = user?.userName
+senderId = user?.objectId
+/***** 取得したカレントユーザと紐づける *****/
+```
+* 「send」ボタンを押したときに実行されるように記述します
+```
+/***** 【NCMB】データストア 保存 *****/
+// クラスの生成
+let object : NCMBObject = NCMBObject(className: "chat")
+// 値の設定
+object["messege"] = text
+object["userName"] = senderDisplayName
+object["sender"] = senderId
+// データストアへの登録を実施
+object.saveInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 保存に成功した場合の処理
+        let successText = "保存に成功しました"
+        print(successText)
+        self.showAlert(title: "", message: successText)
+        //画面に表示
+        self.makeMyMsg(senderId: senderId, desplayName: senderDisplayName, message: text)
+                
+    case let .failure(error):
+        // 保存に失敗した場合の処理
+        let errorText = "保存に失敗しました"
+        print("\(errorText): \(error)")
+        self.showAlert(title: "", message: errorText)
+    }
+})
+/***** 【NCMB】データストア 保存 *****/
+```
+* `NCMBObject(className: "chat")` で保存先のクラスを `chat` に指定します。
+  * chatクラスは自動で作成されます
+```
+// クラスの生成
+let object : NCMBObject = NCMBObject(className: "chat")
+```
+* `object[]` という変数に保存する値を設定します
+  * `text` には入力した文字
+  * `senderDisplayName` には紐づけたカレントユーザ名
+  * `senderId` には紐づけたユーザのオブジェクトID
+```
+// 値の設定
+object["messege"] = text
+object["userName"] = senderDisplayName
+object["sender"] = senderId
+```
+* `.saveInBackground()` でクラウドデータベースにデータを保存します
+```
+// データストアへの登録を実施
+object.saveInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 保存に成功した場合の処理
+        let successText = "保存に成功しました"
+        print(successText)
+        self.showAlert(title: "", message: successText)
+        //画面に表示
+        self.makeMyMsg(senderId: senderId, desplayName: senderDisplayName, message: text)
+                
+    case let .failure(error):
+        // 保存に失敗した場合の処理
+        let errorText = "保存に失敗しました"
+        print("\(errorText): \(error)")
+        self.showAlert(title: "", message: errorText)
+    }
+})
+```
+### 動作確認
+* アプリを起動します
+* アプリが起動したらログインをします
+* テキストフィールドに文字を入力して「send」ボタンをタップします
+* メッセージの保存の結果がアラートで表示されます
+* クラウドにデータが保存されていることを実際に確認してみましょう
+* mobile backend を開きます
+* 「データストア」 を開くと `chat` クラスが作成されていて、その中にデータが格納されていることを確認できます
+
+## メッセージデータ取得機能
+* 送信されているメッセージを取得する処理を実装します
+### コーディング
+* `ChatRoomViewController.swift` に記述します
+* ログインをしたときと「Reload」ボタンを押したときに実行されるように記述します
+```
+/***** 【NCMB】データストア 取得 *****/
+// クエリの作成
+var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
+// 検索条件設定
+//query.limit = 10 // 取得件数
+query.order = ["-createDate"] //降順
+// 取得処理
+query.findInBackground(callback: { result in
+    switch result {
+    case let .success(array):
+        let successText = "取得に成功しました"
+        print("\(successText): \(array.count)件")
+        self.showAlert(title: "", message: successText)
+        //保持しているデータを初期化
+        self.messages = []
+        // 画面に表示
+        self.msgList = array.reversed()
+        self.makeMsg()
+                
+    case let .failure(error):
+        let errorText = "取得に失敗しました"
+        print("\(errorText): \(error)")
+        self.showAlert(title: "", message: errorText)
+                
+    }
+})
+/***** 【NCMB】データストア 取得 *****/
+```
+* データを取得するクラスを指定します
+```
+// クエリの作成
+var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
+```
+* 取得するデータの件数を指定することが可能です
+  * このコードを抜くことで全件取得可能です
+```
+//query.limit = 10 // 取得件数
+```
+* 時系列の古い順で取得します
+```
+query.order = ["-createDate"] //降順
+```
+* `.findInBackground()` でメッセージデータを取得できます
+```
+// 取得処理
+query.findInBackground(callback: { result in
+    switch result {
+    case let .success(array):
+        let successText = "取得に成功しました"
+        print("\(successText): \(array.count)件")
+        self.showAlert(title: "", message: successText)
+        //保持しているデータを初期化
+        self.messages = []
+        // 画面に表示
+        self.msgList = array.reversed()
+        self.makeMsg()
+                
+    case let .failure(error):
+        let errorText = "取得に失敗しました"
+        print("\(errorText): \(error)")
+        self.showAlert(title: "", message: errorText)
+                
+    }
+})
+```
+### 動作確認
+* アプリを起動します
+* アプリが起動したらログインをします
+* 先ほど「send」ボタンで保存されたメッセージデータが表示されます
