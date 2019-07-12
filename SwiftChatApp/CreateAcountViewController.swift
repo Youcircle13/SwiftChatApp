@@ -80,6 +80,7 @@ class CreateAcountViewController: UIViewController {
 
             }
         })
+        /***** 【NCMB】会員管理 新規登録 *****/
         
     }
     
