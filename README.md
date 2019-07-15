@@ -188,7 +188,7 @@ user.signUpInBackground(callback: { result in
   * **command + S キー** で保存できます
 
 ## 動作確認
-* 好みの Simulator か実機を選択してアプリを実行します
+* Simulator か実機を選択してアプリを実行します
 * アプリが起動したら「Create New Acount」をタップして新規登録画面に遷移します
 * テキストフィールドにユーザ名とパスワードを入力します
 * 入力後「Create」ボタンをタップします
