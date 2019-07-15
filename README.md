@@ -440,7 +440,7 @@ query.findInBackground(callback: { result in
 # まとめと考察
 ## アプリのまとめ
 * 複数の会員でチャットが利用可能
-* 
+* デベロッパープレビュー版 Swift SDKを使用
 ## アプリの今後
 ### ACLによるデータ管理
 * 今回は使用しなかったデータ管理方法
