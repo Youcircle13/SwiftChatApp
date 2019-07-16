@@ -120,35 +120,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 * 「Create」ボタンを押したときに実行されるように記述します
 ```swift
 /***** 【NCMB】会員管理 新規登録 *****/
-//　Userインスタンスの生成
-let user = NCMBUser()
-// ユーザー名・パスワードを設定
-user.userName = self.userNameTextField.text!
-user.password = self.passwordTextField.text!
-// ユーザーの新規登録
-user.signUpInBackground(callback: { result in
-    switch result {
-    case .success:
-        // 新規登録に成功した場合の処理
-        let successText = "新規登録に成功しました"
-        print(successText)
-        // errorLabelのの書き換え（メインスレッドで実行）
-        DispatchQueue.main.async {
-            self.errorLabel.text = successText
-        }
-                
-                
-    case let .failure(error):
-        // 新規登録に失敗した場合の処理
-        let errorText = "新規登録に失敗しました"
-        print("\(errorText): \(error)")
-        // errorLabelのの書き換え（メインスレッドで実行）
-        DispatchQueue.main.async {
-            self.errorLabel.text = errorText
-        }
 
-    }
-})
 /***** 【NCMB】会員管理 新規登録 *****/
 ```
 * 会員管理を行うためのuserインスタンスを生成します。
@@ -169,6 +141,48 @@ user.signUpInBackground(callback: { result in
     switch result {
     case .success:
         // 新規登録に成功した場合の処理
+         
+    case let .failure(error):
+        // 新規登録に失敗した場合の処理
+
+    }
+})
+```
+* `.signUpInBackground()` で会員登録
+* `switch case` で新規登録結果をラベルに表示させます
+```swift
+// 新規登録に成功した場合の処理
+let successText = "新規登録に成功しました"
+print(successText)
+// errorLabelのの書き換え（メインスレッドで実行）
+DispatchQueue.main.async {
+    self.errorLabel.text = successText
+}  
+```
+```swift
+// 新規登録に失敗した場合の処理
+let errorText = "新規登録に失敗しました"
+print("\(errorText): \(error)")
+// errorLabelのの書き換え（メインスレッドで実行）
+DispatchQueue.main.async {
+    self.errorLabel.text = errorText
+}
+```
+* 書き換えたら必ず保存をしましょう
+  * **command + S キー** で保存できます
+## コード確認
+下記のようになっていれば大丈夫です
+```swift
+//　Userインスタンスの生成
+let user = NCMBUser()
+// ユーザー名・パスワードを設定
+user.userName = self.userNameTextField.text!
+user.password = self.passwordTextField.text!
+// ユーザーの新規登録
+user.signUpInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 新規登録に成功した場合の処理
         let successText = "新規登録に成功しました"
         print(successText)
         // errorLabelのの書き換え（メインスレッドで実行）
@@ -189,10 +203,6 @@ user.signUpInBackground(callback: { result in
     }
 })
 ```
-* `.signUpInBackground()` で会員登録
-* `switch case` で新規登録結果をラベルに表示させます
-* 書き換えたら必ず保存をしましょう
-  * **command + S キー** で保存できます
 
 ## 動作確認
 * Simulator か実機を選択してアプリを実行します
@@ -210,38 +220,75 @@ user.signUpInBackground(callback: { result in
 * `ViewController.swift` に記述します
 * 「Login」ボタンをタップしたときに実行されるように記述します
 ```swift
-        /***** 【NCMB】会員管理 ログイン *****/
-        NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
-            switch result {
-                case .success:
-                    // ログインに成功した場合の処理
-                    let sucessText = "ログインに成功しました"
-                    print(sucessText)
-                    // チャット画面に遷移（メインスレッドで実行）
-                    DispatchQueue.main.async {
-                        self.performSegue(withIdentifier: "toChatRoom", sender: self)
-                    }
+/***** 【NCMB】会員管理 ログイン *****/
+NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
+    switch result {
+        case .success:
+
+        case let .failure(error):
+            // ログインに失敗した場合の処理
                 
-                case let .failure(error):
-                    // ログインに失敗した場合の処理
-                    // errorLabelのの書き換え（メインスレッドで実行）
-                    DispatchQueue.main.async {
-                        let errorText = "ログイン失敗"
-                        print("\(errorText): \(error)")
-                        self.errorLabel.text = errorText
-                        //contentsのサイズに合わせてobujectのサイズを変える
-                        self.errorLabel.sizeToFit()
-                    }
-                
-            }
-        })
-        /***** 【NCMB】会員管理 ログイン *****/
+    }
+})
+/***** 【NCMB】会員管理 ログイン *****/
 ```
-* `NCMBUser.logInInBackground()` でログイン
+* `NCMBUser.logInInBackground()` でログイン処理を実行
 * `switch case` でログイン結果で画面遷移を操作します
+```swift
+// ログインに成功した場合の処理
+let sucessText = "ログインに成功しました"
+print(sucessText)
+// チャット画面に遷移（メインスレッドで実行）
+DispatchQueue.main.async {
+    self.performSegue(withIdentifier: "toChatRoom", sender: self)
+}
+```
+
+```swift
+// ログインに失敗した場合の処理
+// errorLabelのの書き換え（メインスレッドで実行）
+DispatchQueue.main.async {
+    let errorText = "ログイン失敗"
+    print("\(errorText): \(error)")
+    self.errorLabel.text = errorText
+    //contentsのサイズに合わせてobujectのサイズを変える
+    self.errorLabel.sizeToFit()
+}
+```
 * ログインに成功すればチャット画面に遷移します
 * 書き換えたら必ず保存をしましょう
   * **command + S キー** で保存できます
+## コード確認
+* 下記のようになっていれば大丈夫です
+```swift
+/***** 【NCMB】会員管理 ログイン *****/
+NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
+    switch result {
+        case .success:
+            // ログインに成功した場合の処理
+            let sucessText = "ログインに成功しました"
+            print(sucessText)
+            // チャット画面に遷移（メインスレッドで実行）
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toChatRoom", sender: self)
+            }
+                
+        case let .failure(error):
+            // ログインに失敗した場合の処理
+            // errorLabelのの書き換え（メインスレッドで実行）
+            DispatchQueue.main.async {
+                let errorText = "ログイン失敗"
+                print("\(errorText): \(error)")
+                self.errorLabel.text = errorText
+                //contentsのサイズに合わせてobujectのサイズを変える
+                self.errorLabel.sizeToFit()
+            }
+                
+    }
+})
+/***** 【NCMB】会員管理 ログイン *****/
+```
+
 ### 動作確認
 * 再びアプリを実行します
 * アプリが起動したらテキストフィールどに登録したユーザー名とパスワードを入力します
