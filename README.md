@@ -281,10 +281,26 @@ DispatchQueue.main.async {
 }
 ```
 * ログインに成功すればチャット画面に遷移します
+* 画面遷移後の処理を記述します
+* `ChatRoomViewController.swift` に記述します
+* カレントユーザー（ログインしているユーザー）を取得します
+```swift
+/***** 【NCMB】会員管理 カレントユーザー取得 *****/
+let user = NCMBUser.currentUser
+/***** 【NCMB】会員管理 カレントユーザー取得 *****/
+```
+* メッセージを保存するときに送信者（カレントユーザー）になるように紐づけます
+```swift
+/***** 取得したカレントユーザーと紐づける *****/
+senderDisplayName = user?.userName
+senderId = user?.objectId
+/***** 取得したカレントユーザーと紐づける *****/
+```
 * 書き換えたら必ず保存をしましょう
   * **command + S キー** で保存できます
 ## コード確認
 * 下記のようになっていれば大丈夫です
+* `ViewController.swift`
 ```swift
 /***** 【NCMB】会員管理 ログイン *****/
 NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
@@ -314,6 +330,19 @@ NCMBUser.logInInBackground(userName: userName, password: password, callback: { r
 /***** 【NCMB】会員管理 ログイン *****/
 ```
 
+* `ChatRoomViewController.swift` 
+```swift
+/***** 【NCMB】会員管理 カレントユーザー取得 *****/
+let user = NCMBUser.currentUser
+/***** 【NCMB】会員管理 カレントユーザー取得 *****/
+```
+
+```swift
+/***** 取得したカレントユーザーと紐づける *****/
+senderDisplayName = user?.userName
+senderId = user?.objectId
+/***** 取得したカレントユーザーと紐づける *****/
+```
 ### 動作確認
 * 再びアプリを実行します
 * アプリが起動したらテキストフィールどに登録したユーザー名とパスワードを入力します
@@ -352,19 +381,6 @@ NCMBUser.logOut()
 * ログインしたユーザーでメッセージを送信する処理を実装します
 ### コーディング
 * `ChatRoomViewController.swift` に記述します
-* カレントユーザー（ログインしているユーザー）を取得します
-```swift
-/***** 【NCMB】会員管理 カレントユーザー取得 *****/
-let user = NCMBUser.currentUser
-/***** 【NCMB】会員管理 カレントユーザー取得 *****/
-```
-* メッセージを保存するときに送信者（カレントユーザー）になるように紐づけます
-```swift
-/***** 取得したカレントユーザーと紐づける *****/
-senderDisplayName = user?.userName
-senderId = user?.objectId
-/***** 取得したカレントユーザーと紐づける *****/
-```
 * 「send」ボタンを押したときに実行されるように記述します
 ```swift
 /***** 【NCMB】データストア 保存 *****/
