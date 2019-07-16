@@ -21,7 +21,7 @@
 
 ### 使用したライブラリ
 * ニフクラ mobile backend デベロッパープレビュー版 Swift SDK
-  https://github.com/NIFCloud-mbaas/ncmb_swift
+  * https://github.com/NIFCloud-mbaas/ncmb_swift
 * JSQMessagesViewController
   * https://github.com/jessesquires/JSQMessagesViewController
 
