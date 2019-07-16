@@ -21,7 +21,9 @@
 
 ### 使用したライブラリ
 * ニフクラ mobile backend デベロッパープレビュー版 Swift SDK
+  https://github.com/NIFCloud-mbaas/ncmb_swift
 * JSQMessagesViewController
+  * https://github.com/jessesquires/JSQMessagesViewController
 
 ### 作成できるアプリ
 機能
@@ -36,7 +38,7 @@
 * [会員管理](https://mbaas.nifcloud.com/function.htm#user)
    * ログイン・ログアウト・権限管理・メールアドレス認証など、アプリ内の会員を管理する機能
 * [データストア](https://mbaas.nifcloud.com/function.htm#datastore)
-   * アプリで利用されるデータを保存・共有することができるデータベース機能です。
+   * アプリで利用されるデータを保存・共有することができるデータベース機能
 # ハンズオン
 ## 事前準備
 * 動作環境
@@ -64,6 +66,7 @@
 1. ロールを活用したグループチャットの作成
 1. ファイルストアを活用したアイコン設定
 1. ローカルにデータを保持
+1. 代替モジュールの紹介
 
 # 環境準備
 ## mobile backend の準備
@@ -91,9 +94,9 @@
 * `SwiftChatApp` プロジェクト内のファイルに記述していきます
 * 必要なコードが虫食い状態になっていますので、手順ごとに1つずつコーディングしてアプリを完成させます。
 ```
-/***** 【NCMB】SDKの初期化 *****/
+/***** 【NCMB】○○○○ *****/
         
-/***** 【NCMB】SDKの初期化 *****/
+/***** 【NCMB】○○○○ *****/
 ```
 ## mobile backend APIキー設定とSDKの初期化
 * `AppDelegate.swift` を開きます
@@ -352,6 +355,11 @@ senderId = user?.objectId
 /***** 取得したカレントユーザーと紐づける *****/
 ```
 * 「send」ボタンを押したときに実行されるように記述します
+```swift
+/***** 【NCMB】データストア 保存 *****/
+
+/***** 【NCMB】データストア 保存 *****/
+```
 * `NCMBObject(className: "chat")` で保存先のクラスを `chat` に指定します。
   * chatクラスは自動で作成されます
 ```swift
@@ -451,6 +459,11 @@ if senderId == user?.objectId {
 /***** senderId == 自分　だった場合表示しない *****/
 ```
 * ログインをしたときと「Reload」ボタンを押したときに実行されるように記述します
+```swift
+/***** 【NCMB】データストア 取得 *****/
+
+/***** 【NCMB】データストア 取得 *****/
+```
 * データを取得するクラスを指定します
 ```swift
 // クエリの作成
@@ -475,16 +488,13 @@ query.findInBackground(callback: { result in
                 
     case let .failure(error):
         //取得に失敗した場合の処理
-        let errorText = "取得に失敗しました"
-        print("\(errorText): \(error)")
-        self.showAlert(title: "", message: errorText)
                 
     }
 })
 ```
 * `switch case` で取得できたかを判断します
 ```swift
-//取得に成功したか
+//取得に成功した場合の処理
 let successText = "取得に成功しました"
 print("\(successText): \(array.count)件")
 self.showAlert(title: "", message: successText)
@@ -590,3 +600,6 @@ override func collectionView(_ collectionView: JSQMessagesCollectionView!, avata
 * 今回はデータをすべて取得
 * チャットの保存量が多くなると不可能
 * アプリ側に保存して最新のデータのみ取得できるようにする
+## 代替モジュールの紹介
+* MessageKit
+  * https://github.com/MessageKit/MessageKit
