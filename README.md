@@ -210,32 +210,32 @@ user.signUpInBackground(callback: { result in
 * `ViewController.swift` に記述します
 * 「Login」ボタンをタップしたときに実行されるように記述します
 ```swift
-/***** 【NCMB】会員管理 ログイン *****/
-NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
-    switch result {
-        case .success:
-            // ログインに成功した場合の処理
-            let sucessText = "ログインに成功しました"
-            print(sucessText)
-            // チャット画面に遷移（メインスレッドで実行）
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "toChatRoom", sender: self)
-            }
+        /***** 【NCMB】会員管理 ログイン *****/
+        NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
+            switch result {
+                case .success:
+                    // ログインに成功した場合の処理
+                    let sucessText = "ログインに成功しました"
+                    print(sucessText)
+                    // チャット画面に遷移（メインスレッドで実行）
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "toChatRoom", sender: self)
+                    }
                 
-        case let .failure(error):
-            // ログインに失敗した場合の処理
-            // errorLabelのの書き換え（メインスレッドで実行）
-            DispatchQueue.main.async {
-                let errorText = "ログイン失敗"
-                print("\(errorText): \(error)")
-                self.errorLabel.text = errorText
-                //contentsのサイズに合わせてobujectのサイズを変える
-                self.errorLabel.sizeToFit()
-            }
+                case let .failure(error):
+                    // ログインに失敗した場合の処理
+                    // errorLabelのの書き換え（メインスレッドで実行）
+                    DispatchQueue.main.async {
+                        let errorText = "ログイン失敗"
+                        print("\(errorText): \(error)")
+                        self.errorLabel.text = errorText
+                        //contentsのサイズに合わせてobujectのサイズを変える
+                        self.errorLabel.sizeToFit()
+                    }
                 
-    }
-})
-/***** 【NCMB】会員管理 ログイン *****/
+            }
+        })
+        /***** 【NCMB】会員管理 ログイン *****/
 ```
 * `NCMBUser.logInInBackground()` でログイン
 * `switch case` でログイン結果で画面遷移を操作します
