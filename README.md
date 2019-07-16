@@ -600,6 +600,6 @@ override func collectionView(_ collectionView: JSQMessagesCollectionView!, avata
 * 今回はデータをすべて取得
 * チャットの保存量が多くなると不可能
 * アプリ側に保存して最新のデータのみ取得できるようにする
-## 代替モジュールの紹介
+### 代替モジュールの紹介
 * MessageKit
   * https://github.com/MessageKit/MessageKit
