@@ -16,11 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     /***** 【NCMB】APIキー *****/
-    //let applicationkey = "YOUR_NCMB_APPLICATION_KEY"
-    //let clientkey = "YOUR_NCMB_CLIENTKEY"
-    
-    let applicationkey = "88b626747d953fb6d3aefe54e88073c4237e18bd4bc493da5de771263577726b"
-    let clientkey = "104ac9817ee72e672a396105457db8e4d2892463b8e544bfa2fdc1e16aa42801"
+    let applicationkey = "YOUR_NCMB_APPLICATION_KEY"
+    let clientkey = "YOUR_NCMB_CLIENTKEY"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
