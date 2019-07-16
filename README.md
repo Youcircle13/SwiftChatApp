@@ -75,8 +75,8 @@
 * ダウンロードしてあるプロジェクトの `SwiftChatApp.xcworkspace` をダブルクリックします
 * Xcode が起動し、プロジェクトが開かれます
 **注意**
-青いアイコンの `SwiftFormApp.xcodeproj` からXcodeを起動しても動作しません。
-必ず白いアイコンの `SwiftFormApp.xcworkspace` から起動してください。
+青いアイコンの `SwiftChatApp.xcodeproj` からXcodeを起動しても動作しません。
+必ず白いアイコンの `SwiftChatApp.xcworkspace` から起動してください。
 ## mobile backend APIキー設定とSDKの初期化
 * `AppDelegate.swift` を開きます
 * `YOUR_NCMB_APPLICATION_KEY` と `YOUR_NCMB_CLIENT_KEY` を mobile backend でアプリ作成時に発行された２つの APIキー （アプリケーションキーとクライアントキー）に貼り替えます
