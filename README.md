@@ -104,6 +104,11 @@
         
 /***** 【NCMB】○○○○ *****/
 ```
+
+* 4つのファイルをコーディングしていきます
+
+![コーディングファイル](image/ストーリーボード.png)
+
 ## mobile backend APIキー設定とSDKの初期化
 * `AppDelegate.swift` を開きます
 * `YOUR_NCMB_APPLICATION_KEY` と `YOUR_NCMB_CLIENT_KEY` を mobile backend でアプリ作成時に発行された２つの APIキー （アプリケーションキーとクライアントキー）に貼り替えます
