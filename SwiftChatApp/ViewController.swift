@@ -41,7 +41,7 @@ class ViewController: UIViewController{
         }
         
         /***** 【NCMB】会員管理 ログイン *****/
-
+        
         /***** 【NCMB】会員管理 ログイン *****/
         
     }
@@ -64,4 +64,3 @@ class ViewController: UIViewController{
     }
     
 }
-
