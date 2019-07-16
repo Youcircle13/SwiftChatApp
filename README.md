@@ -224,7 +224,8 @@ user.signUpInBackground(callback: { result in
 NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
     switch result {
         case .success:
-
+            // ログインに成功した場合の処理
+            
         case let .failure(error):
             // ログインに失敗した場合の処理
                 
@@ -341,34 +342,6 @@ senderId = user?.objectId
 /***** 取得したカレントユーザーと紐づける *****/
 ```
 * 「send」ボタンを押したときに実行されるように記述します
-```swift
-/***** 【NCMB】データストア 保存 *****/
-// クラスの生成
-let object : NCMBObject = NCMBObject(className: "chat")
-// 値の設定
-object["messege"] = text
-object["userName"] = senderDisplayName
-object["sender"] = senderId
-// データストアへの登録を実施
-object.saveInBackground(callback: { result in
-    switch result {
-    case .success:
-        // 保存に成功した場合の処理
-        let successText = "保存に成功しました"
-        print(successText)
-        self.showAlert(title: "", message: successText)
-        //画面に表示
-        self.makeMyMsg(senderId: senderId, desplayName: senderDisplayName, message: text)
-                
-    case let .failure(error):
-        // 保存に失敗した場合の処理
-        let errorText = "保存に失敗しました"
-        print("\(errorText): \(error)")
-        self.showAlert(title: "", message: errorText)
-    }
-})
-/***** 【NCMB】データストア 保存 *****/
-```
 * `NCMBObject(className: "chat")` で保存先のクラスを `chat` に指定します。
   * chatクラスは自動で作成されます
 ```swift
@@ -392,6 +365,44 @@ object.saveInBackground(callback: { result in
     switch result {
     case .success:
         // 保存に成功した場合の処理
+                
+    case let .failure(error):
+        // 保存に失敗した場合の処理
+
+    }
+})
+```
+* `switch case` でメッセージデータ保存の可否を判断します
+```swift
+// 保存に成功した場合の処理
+let successText = "保存に成功しました"
+print(successText)
+self.showAlert(title: "", message: successText)
+//画面に表示
+self.makeMyMsg(senderId: senderId, desplayName: senderDisplayName, message: text)
+```
+
+```swift
+// 保存に失敗した場合の処理
+let errorText = "保存に失敗しました"
+print("\(errorText): \(error)")
+self.showAlert(title: "", message: errorText)
+```
+## コード確認
+* 下記のようになっていれば大丈夫です
+```swift
+/***** 【NCMB】データストア 保存 *****/
+// クラスの生成
+let object : NCMBObject = NCMBObject(className: "chat")
+// 値の設定
+object["messege"] = text
+object["userName"] = senderDisplayName
+object["sender"] = senderId
+// データストアへの登録を実施
+object.saveInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 保存に成功した場合の処理
         let successText = "保存に成功しました"
         print(successText)
         self.showAlert(title: "", message: successText)
@@ -405,7 +416,9 @@ object.saveInBackground(callback: { result in
         self.showAlert(title: "", message: errorText)
     }
 })
+/***** 【NCMB】データストア 保存 *****/
 ```
+
 ### 動作確認
 * アプリを起動します
 * アプリが起動したらログインをします
@@ -428,6 +441,58 @@ if senderId == user?.objectId {
 /***** senderId == 自分　だった場合表示しない *****/
 ```
 * ログインをしたときと「Reload」ボタンを押したときに実行されるように記述します
+* データを取得するクラスを指定します
+```swift
+// クエリの作成
+var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
+```
+* 取得するデータの件数を指定することが可能です
+  * このコードを抜くことで全件取得可能です
+```swift
+//query.limit = 10 // 取得件数
+```
+* 時系列の古い順で取得します
+```swift
+query.order = ["-createDate"] //降順
+```
+* `.findInBackground()` でメッセージデータを取得できます
+```swift
+// 取得処理
+query.findInBackground(callback: { result in
+    switch result {
+    case let .success(array):
+        //取得に成功した場合の処理
+                
+    case let .failure(error):
+        //取得に失敗した場合の処理
+        let errorText = "取得に失敗しました"
+        print("\(errorText): \(error)")
+        self.showAlert(title: "", message: errorText)
+                
+    }
+})
+```
+* `switch case` で取得できたかを判断します
+```swift
+//取得に成功したか
+let successText = "取得に成功しました"
+print("\(successText): \(array.count)件")
+self.showAlert(title: "", message: successText)
+//保持しているデータを初期化
+self.messages = []
+// 画面に表示
+self.msgList = array.reversed()
+self.makeMsg()
+```
+
+```swift
+//取得に失敗した場合の処理
+let errorText = "取得に失敗しました"
+print("\(errorText): \(error)")
+self.showAlert(title: "", message: errorText)
+```
+## コード確認
+* 下記のようになっていれば大丈夫です
 ```swift
 /***** 【NCMB】データストア 取得 *****/
 // クエリの作成
@@ -456,43 +521,6 @@ query.findInBackground(callback: { result in
     }
 })
 /***** 【NCMB】データストア 取得 *****/
-```
-* データを取得するクラスを指定します
-```swift
-// クエリの作成
-var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
-```
-* 取得するデータの件数を指定することが可能です
-  * このコードを抜くことで全件取得可能です
-```swift
-//query.limit = 10 // 取得件数
-```
-* 時系列の古い順で取得します
-```swift
-query.order = ["-createDate"] //降順
-```
-* `.findInBackground()` でメッセージデータを取得できます
-```swift
-// 取得処理
-query.findInBackground(callback: { result in
-    switch result {
-    case let .success(array):
-        let successText = "取得に成功しました"
-        print("\(successText): \(array.count)件")
-        self.showAlert(title: "", message: successText)
-        //保持しているデータを初期化
-        self.messages = []
-        // 画面に表示
-        self.msgList = array.reversed()
-        self.makeMsg()
-                
-    case let .failure(error):
-        let errorText = "取得に失敗しました"
-        print("\(errorText): \(error)")
-        self.showAlert(title: "", message: errorText)
-                
-    }
-})
 ```
 ### 動作確認
 * アプリを起動します
