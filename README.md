@@ -569,6 +569,21 @@ query.findInBackground(callback: { result in
 * mBaaSの機能の一つ
 * 本セミナーでは一つの画像のみ使用
 * 会員ごとに画像を連携させることでアイコン設定が可能
+
+※今回はアイコンの設定は `ChatRoomViewController.swift` でアイコンを指定
+```swift
+override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
+        
+    let senderId = messages[indexPath.row].senderId
+        
+    /***** senderId == 自分　だった場合表示しない *****/
+
+    /***** senderId == 自分　だった場合表示しない *****/
+        
+    // senderId != 自分だったら user.ong を表示する
+    return JSQMessagesAvatarImage.avatar(with: UIImage(named: "user"))
+}
+```
 ### ローカルにデータを保持
 * 今回はデータをすべて取得
 * チャットの保存量が多くなると不可能
