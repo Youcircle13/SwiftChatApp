@@ -564,7 +564,7 @@ query.findInBackground(callback: { result in
 * mBaaSの機能の一つ
 * デベロッパープレビュー版 Swift SDK では未実装
 * ACLの権限をロールごとに指定可能
-### ファイルストアを活用したアイコン設定
+### [ファイルストア](https://mbaas.nifcloud.com/function.htm#filestore)を活用したアイコン設定
 * 会員ごとにアイコン画像をクラウドに保存可能
 * mBaaSの機能の一つ
 * 本セミナーでは一つの画像のみ使用
