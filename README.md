@@ -69,14 +69,14 @@
 これで mobile backend の準備は完了です
 ## サンプルプロジェクトの準備
 * 下記リンクからプロジェクトをローカルフォルダにダウンロードします
-  * https://github.com/Youcircle13/SwiftChatApp/archive/seminar.zip
+  * |||| githubのダウンロードリンク
 * zipファイルを解凍して内容を確認します
 * 今回は使用するSDKやライブラリは導入してあります
 * ダウンロードしてあるプロジェクトの `SwiftChatApp.xcworkspace` をダブルクリックします
 * Xcode が起動し、プロジェクトが開かれます
 **注意**
-青いアイコンの `SwiftFormApp.xcodeproj` からXcodeを起動しても動作しません。
-必ず白いアイコンの `SwiftFormApp.xcworkspace` から起動してください。
+青いアイコンの `SwiftChatApp.xcodeproj` からXcodeを起動しても動作しません。
+必ず白いアイコンの `SwiftChatApp.xcworkspace` から起動してください。
 ## mobile backend APIキー設定とSDKの初期化
 * `AppDelegate.swift` を開きます
 * `YOUR_NCMB_APPLICATION_KEY` と `YOUR_NCMB_CLIENT_KEY` を mobile backend でアプリ作成時に発行された２つの APIキー （アプリケーションキーとクライアントキー）に貼り替えます
@@ -188,7 +188,7 @@ user.signUpInBackground(callback: { result in
   * **command + S キー** で保存できます
 
 ## 動作確認
-* 好みの Simulator か実機を選択してアプリを実行します
+* Simulator か実機を選択してアプリを実行します
 * アプリが起動したら「Create New Acount」をタップして新規登録画面に遷移します
 * テキストフィールドにユーザ名とパスワードを入力します
 * 入力後「Create」ボタンをタップします
@@ -365,6 +365,14 @@ object.saveInBackground(callback: { result in
 * 送信されているメッセージを取得する処理を実装します
 ### コーディング
 * `ChatRoomViewController.swift` に記述します
+* ユーザ画像の表示を記述します
+```
+/***** senderId == 自分　だった場合表示しない *****/
+if senderId == user?.objectId {
+   return nil
+}
+/***** senderId == 自分　だった場合表示しない *****/
+```
 * ログインをしたときと「Reload」ボタンを押したときに実行されるように記述します
 ```
 /***** 【NCMB】データストア 取得 *****/
@@ -439,8 +447,12 @@ query.findInBackground(callback: { result in
 
 # まとめと考察
 ## まとめ
-* 複数の会員でチャットが利用可能
-* デベロッパープレビュー版 Swift SDKを使用
+クラウドデータベースの会員管理とデータ保存、データ取得を学びました
+* 会員管理
+* データの保存
+* データの取得
+* メッセージデータと会員の連携
+
 ## 考察
 ### ACLによるデータ管理
 * 今回は使用しなかったデータ管理方法
@@ -453,6 +465,11 @@ query.findInBackground(callback: { result in
 * mBaaSの機能の一つ
 * デベロッパープレビュー版 Swift SDK では未実装
 * ACLの権限をロールごとに指定可能
+### ファイルストアを活用したアイコン設定
+* 会員ごとにアイコン画像をクラウドに保存可能
+* mBaaSの機能の一つ
+* 本セミナーでは一つの画像のみ使用
+* 会員ごとに画像を連携させることでアイコン設定が可能
 ### ローカルにデータを保持
 * 今回はデータをすべて取得
 * チャットの保存量が多くなると不可能
