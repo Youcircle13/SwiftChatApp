@@ -69,7 +69,7 @@
 これで mobile backend の準備は完了です
 ## サンプルプロジェクトの準備
 * 下記リンクからプロジェクトをローカルフォルダにダウンロードします
-  * |||| githubのダウンロードリンク
+  * https://github.com/Youcircle13/SwiftChatApp/archive/seminar.zip
 * zipファイルを解凍して内容を確認します
 * 今回は使用するSDKやライブラリは導入してあります
 * ダウンロードしてあるプロジェクトの `SwiftChatApp.xcworkspace` をダブルクリックします
