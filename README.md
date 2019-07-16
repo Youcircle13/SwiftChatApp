@@ -73,6 +73,9 @@
 * [mobile backend](https://mbaas.nifcloud.com/) にログインします
 * 新しいアプリを作成します
 * アプリ名を入力し 「新規作成」 ボタンをクリックします　例）SwiftChatApp
+
+![新規アプリ作成](https://github.com/Youcircle13/SwiftChatApp/tree/seminar/image/新規アプリ作成.png)
+
 * mobile backend を既に使用したことがある場合は、画面上方のメニューバーにある 「＋新しいアプリ」 をクリックすることで新しいアプリ作成画面が表示されます
 * アプリが作成されるとAPIキー（2種類）が発行されます
   * APIキーはあとで使用します
