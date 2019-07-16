@@ -365,6 +365,14 @@ object.saveInBackground(callback: { result in
 * 送信されているメッセージを取得する処理を実装します
 ### コーディング
 * `ChatRoomViewController.swift` に記述します
+* ユーザ画像の表示を記述します
+```
+/***** senderId == 自分　だった場合表示しない *****/
+if senderId == user?.objectId {
+   return nil
+}
+/***** senderId == 自分　だった場合表示しない *****/
+```
 * ログインをしたときと「Reload」ボタンを押したときに実行されるように記述します
 ```
 /***** 【NCMB】データストア 取得 *****/
@@ -457,6 +465,11 @@ query.findInBackground(callback: { result in
 * mBaaSの機能の一つ
 * デベロッパープレビュー版 Swift SDK では未実装
 * ACLの権限をロールごとに指定可能
+### ファイルストアを活用したアイコン設定
+* 会員ごとにアイコン画像をクラウドに保存可能
+* mBaaSの機能の一つ
+* 本セミナーでは一つの画像のみ使用
+* 会員ごとに画像を連携させることでアイコン設定が可能
 ### ローカルにデータを保持
 * 今回はデータをすべて取得
 * チャットの保存量が多くなると不可能
