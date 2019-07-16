@@ -52,8 +52,8 @@
 ### 3. まとめと考察
 1. ACLによるデータ管理
 1. ロールを活用したグループチャットの作成
+1. ファイルストアを活用したアイコン設定
 1. ローカルにデータを保持
-1. チャット画面フレームワークの紹介
 
 # 環境準備
 ## mobile backend の準備
@@ -77,12 +77,26 @@
 **注意**
 青いアイコンの `SwiftChatApp.xcodeproj` からXcodeを起動しても動作しません。
 必ず白いアイコンの `SwiftChatApp.xcworkspace` から起動してください。
+## コーディングの進め方について
+* `SwiftChatApp` プロジェクト内のファイルに記述していきます
+* 必要なコードが虫食い状態になっていますので、手順ごとに1つずつコーディングしてアプリを完成させます。
+```
+/***** 【NCMB】SDKの初期化 *****/
+        
+/***** 【NCMB】SDKの初期化 *****/
+```
 ## mobile backend APIキー設定とSDKの初期化
 * `AppDelegate.swift` を開きます
 * `YOUR_NCMB_APPLICATION_KEY` と `YOUR_NCMB_CLIENT_KEY` を mobile backend でアプリ作成時に発行された２つの APIキー （アプリケーションキーとクライアントキー）に貼り替えます
+```swift
+/***** 【NCMB】APIキー *****/
+let applicationkey = "YOUR_NCMB_APPLICATION_KEY"
+let clientkey = "YOUR_NCMB_CLIENTKEY"
+/***** 【NCMB】APIキー *****/
+```
 * APIキーは mobile backend 管理画面の「アプリ設定」で確認できます
 * SDKの初期化を行います
-```
+```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         /***** 【NCMB】SDKの初期化 *****/
@@ -98,20 +112,13 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 これでプロジェクトの準備は完了です
 # コーディングと動作確認
-## コーディングの進め方について
-* `SwiftChatApp` プロジェクト内のファイルに記述していきます
-* 必要なコードが虫食い状態になっていますので、手順ごとに1つずつコーディングしてアプリを完成させます。
-```
-/***** 【NCMB】SDKの初期化 *****/
-        
-/***** 【NCMB】SDKの初期化 *****/
-```
-## 新規ユーザ登録機能
+
+## 新規ユーザー登録機能
 * チャットを行うための会員をクラウドデータベースに保存する処理を実装します
 ## コーディング
 * `CreateAcountViewController.swift` に記述します
 * 「Create」ボタンを押したときに実行されるように記述します
-```
+```swift
 /***** 【NCMB】会員管理 新規登録 *****/
 //　Userインスタンスの生成
 let user = NCMBUser()
@@ -145,18 +152,18 @@ user.signUpInBackground(callback: { result in
 /***** 【NCMB】会員管理 新規登録 *****/
 ```
 * 会員管理を行うためのuserインスタンスを生成します。
-```
+```swift
 //　Userインスタンスの生成
 let user = NCMBUser()
 ```
 * テキストデータに入力されているデータを `user` に設定します
-```
+```swift
 // ユーザー名・パスワードを設定
 user.userName = self.userNameTextField.text!
 user.password = self.passwordTextField.text!
 ```
 * 設定したデータで会員登録を行います
-```
+```swift
 // ユーザーの新規登録
 user.signUpInBackground(callback: { result in
     switch result {
@@ -202,7 +209,7 @@ user.signUpInBackground(callback: { result in
 ### コーディング
 * `ViewController.swift` に記述します
 * 「Login」ボタンをタップしたときに実行されるように記述します
-```
+```swift
 /***** 【NCMB】会員管理 ログイン *****/
 NCMBUser.logInInBackground(userName: userName, password: password, callback: { result in
     switch result {
@@ -237,17 +244,17 @@ NCMBUser.logInInBackground(userName: userName, password: password, callback: { r
   * **command + S キー** で保存できます
 ### 動作確認
 * 再びアプリを実行します
-* アプリが起動したらテキストフィールどに登録したユーザ名とパスワードを入力します
+* アプリが起動したらテキストフィールどに登録したユーザー名とパスワードを入力します
 * ログインに成功するとチャット画面に遷移します
-* ※登録していないユーザ名やパスワードを入力するとラベルにログイン失敗と表示されます
+* ※登録していないユーザー名やパスワードを入力するとラベルにログイン失敗と表示されます
 
 ## ログアウト機能
-* ログインしているユーザをアプリからログアウトする処理を実装します
+* ログインしているユーザーをアプリからログアウトする処理を実装します
 ### コーディング
 * `AppDelegate.swift` と `ChatRoomViewController.swift`に記述します
 * アプリ落とした時と「Logout」ボタンをタップしたときに実行されるように記述します
 * `AppDelegate.swift`
-```
+```swift
 func applicationWillResignActive(_ application: UIApplication) {
 
     /***** 【NCMB】会員管理 ログアウト *****/
@@ -257,7 +264,7 @@ func applicationWillResignActive(_ application: UIApplication) {
 }
 ```
 * `ChatRoomViewController.swift` 
-```
+```swift
 /***** 【NCMB】会員管理 ログアウト *****/
 NCMBUser.logOut()
 /***** 【NCMB】会員管理 ログアウト *****/
@@ -270,24 +277,24 @@ NCMBUser.logOut()
 * ログアウトが完了したらログイン画面に遷移します
 
 ## メッセージデータ保存機能
-* ログインしたユーザでメッセージを送信する処理を実装します
+* ログインしたユーザーでメッセージを送信する処理を実装します
 ### コーディング
 * `ChatRoomViewController.swift` に記述します
-* カレントユーザ（ログインしているユーザ）を取得します
-```
+* カレントユーザー（ログインしているユーザー）を取得します
+```swift
 /***** 【NCMB】会員管理 カレントユーザー取得 *****/
 let user = NCMBUser.currentUser
 /***** 【NCMB】会員管理 カレントユーザー取得 *****/
 ```
 * メッセージを保存するときに送信者（カレントユーザー）になるように紐づけます
-```
-/***** 取得したカレントユーザと紐づける *****/
+```swift
+/***** 取得したカレントユーザーと紐づける *****/
 senderDisplayName = user?.userName
 senderId = user?.objectId
-/***** 取得したカレントユーザと紐づける *****/
+/***** 取得したカレントユーザーと紐づける *****/
 ```
 * 「send」ボタンを押したときに実行されるように記述します
-```
+```swift
 /***** 【NCMB】データストア 保存 *****/
 // クラスの生成
 let object : NCMBObject = NCMBObject(className: "chat")
@@ -317,22 +324,22 @@ object.saveInBackground(callback: { result in
 ```
 * `NCMBObject(className: "chat")` で保存先のクラスを `chat` に指定します。
   * chatクラスは自動で作成されます
-```
+```swift
 // クラスの生成
 let object : NCMBObject = NCMBObject(className: "chat")
 ```
 * `object[]` という変数に保存する値を設定します
   * `text` には入力した文字
-  * `senderDisplayName` には紐づけたカレントユーザ名
-  * `senderId` には紐づけたユーザのオブジェクトID
-```
+  * `senderDisplayName` には紐づけたカレントユーザー名
+  * `senderId` には紐づけたユーザーのオブジェクトID
+```swift
 // 値の設定
 object["messege"] = text
 object["userName"] = senderDisplayName
 object["sender"] = senderId
 ```
 * `.saveInBackground()` でクラウドデータベースにデータを保存します
-```
+```swift
 // データストアへの登録を実施
 object.saveInBackground(callback: { result in
     switch result {
@@ -365,8 +372,8 @@ object.saveInBackground(callback: { result in
 * 送信されているメッセージを取得する処理を実装します
 ### コーディング
 * `ChatRoomViewController.swift` に記述します
-* ユーザ画像の表示を記述します
-```
+* ユーザー画像の表示を記述します
+```swift
 /***** senderId == 自分　だった場合表示しない *****/
 if senderId == user?.objectId {
    return nil
@@ -374,7 +381,7 @@ if senderId == user?.objectId {
 /***** senderId == 自分　だった場合表示しない *****/
 ```
 * ログインをしたときと「Reload」ボタンを押したときに実行されるように記述します
-```
+```swift
 /***** 【NCMB】データストア 取得 *****/
 // クエリの作成
 var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
@@ -404,21 +411,21 @@ query.findInBackground(callback: { result in
 /***** 【NCMB】データストア 取得 *****/
 ```
 * データを取得するクラスを指定します
-```
+```swift
 // クエリの作成
 var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "chat")
 ```
 * 取得するデータの件数を指定することが可能です
   * このコードを抜くことで全件取得可能です
-```
+```swift
 //query.limit = 10 // 取得件数
 ```
 * 時系列の古い順で取得します
-```
+```swift
 query.order = ["-createDate"] //降順
 ```
 * `.findInBackground()` でメッセージデータを取得できます
-```
+```swift
 // 取得処理
 query.findInBackground(callback: { result in
     switch result {
