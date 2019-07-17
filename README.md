@@ -36,7 +36,7 @@
 
 * 作成できるチャット画面
 
-![チャット画面](image/チャットアプリ.png)
+<img src="image/チャットアプリ.png" width=50% height=50%></img>
 
 ### 使用したニフクラ mobile backend の機能
 * [会員管理](https://mbaas.nifcloud.com/function.htm#user)
@@ -78,7 +78,7 @@
 * 新しいアプリを作成します
 * アプリ名を入力し 「新規作成」 ボタンをクリックします　例）SwiftChatApp
 
-![新規アプリ作成](image/新規アプリ作成.png)
+<img src="image/新規アプリ作成.png" width=70% height=70%></img>
 
 * mobile backend を既に使用したことがある場合は、画面上方のメニューバーにある 「＋新しいアプリ」 をクリックすることで新しいアプリ作成画面が表示されます
 * アプリが作成されるとAPIキー（2種類）が発行されます
@@ -94,7 +94,7 @@
 * 今回は使用するSDKやライブラリは導入してあります
 * ダウンロードしてあるプロジェクトの `SwiftChatApp.xcworkspace` をダブルクリックします
 
-![プロジェクト](image/プロジェクト.png)
+<img src="image/プロジェクト.png" width=70% height=70%></img>
 
 * Xcode が起動し、プロジェクトが開かれます
 **注意**
