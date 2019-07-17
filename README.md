@@ -111,7 +111,7 @@
 
 * 4つのファイルをコーディングしていきます
 
-![コーディングファイル](image/ストーリーボード.png)
+<img src="image/ストーリーボード.png" width=70% height=70%></img>
 
 ## mobile backend APIキー設定とSDKの初期化
 * `AppDelegate.swift` を開きます
